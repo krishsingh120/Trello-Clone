@@ -1,0 +1,96 @@
+// Defines the MySQL Prisma schema for boards, lists, cards, and relations.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Board {
+  id        Int     @id @default(autoincrement())
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lists     List[]
+  labels    Label[]
+}
+
+model List {
+  id        Int     @id @default(autoincrement())
+  boardId   Int
+  title     String
+  position  Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  board     Board   @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  cards     Card[]
+
+  @@index([boardId])
+}
+
+model Card {
+  id             Int             @id @default(autoincrement())
+  listId         Int
+  title          String
+  description    String          @db.Text
+  position       Int
+  dueDate        DateTime?
+  isArchived     Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  list           List            @relation(fields: [listId], references: [id], onDelete: Cascade)
+  labels         CardLabel[]
+  checklistItems ChecklistItem[]
+  members        CardMember[]
+
+  @@index([listId])
+}
+
+model Label {
+  id      Int         @id @default(autoincrement())
+  name    String
+  color   String
+  boardId Int
+  board   Board       @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  cards   CardLabel[]
+
+  @@index([boardId])
+}
+
+model CardLabel {
+  cardId  Int
+  labelId Int
+  card    Card  @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  label   Label @relation(fields: [labelId], references: [id], onDelete: Cascade)
+
+  @@id([cardId, labelId])
+}
+
+model ChecklistItem {
+  id         Int      @id @default(autoincrement())
+  cardId     Int
+  title      String
+  isComplete Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  card       Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  @@index([cardId])
+}
+
+model Member {
+  id          Int          @id @default(autoincrement())
+  name        String
+  avatarColor String
+  cards       CardMember[]
+}
+
+model CardMember {
+  cardId   Int
+  memberId Int
+  card     Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@id([cardId, memberId])
+}
