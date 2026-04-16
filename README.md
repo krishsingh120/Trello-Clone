@@ -36,12 +36,6 @@ replicating Trello's UI and functionality.
 - Filter cards by labels, members, due date
 
 ### Bonus
-- Multiple boards support
-- File attachments on cards
-- Comments on cards
-- Activity log
-- Card cover images
-- Board background customization
 - Responsive design (mobile, tablet, desktop)
 
 ---
@@ -50,7 +44,7 @@ replicating Trello's UI and functionality.
 
 ### Prerequisites
 - Node.js v18+
-- MySQL running locally
+- MySQL running on Railways
 
 ### Backend Setup
 
@@ -81,15 +75,21 @@ npm run dev
 ### Frontend Setup
 
 1. Install dependencies:
+```bash
 cd frontend
 npm install
+```
 
 2. Set the API base URL in `.env`:
+```bash
 VITE_API_BASE_URL=http://localhost:5000/api
+```
 
 3. Start the frontend:
+```bash
 npm run dev
    Frontend runs at `http://localhost:5173`
+   ```
 
 ---
 
@@ -135,6 +135,7 @@ SELECT * FROM Board;
 
 - Backend deployed on **Render**
 - Frontend deployed on **Vercel**
+- Database deployed on **Railways**
 - Set `VITE_API_BASE_URL` to deployed backend 
   URL with `/api` suffix on Vercel
 - Set `DATABASE_URL`, `PORT`, `NODE_ENV`, 
