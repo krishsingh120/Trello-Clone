@@ -391,3 +391,36 @@ button {
     flex-basis: 280px;
   }
 }
+
+@media (max-width: 480px) {
+  .topbar {
+    padding: 0.75rem;
+    border-radius: 10px;
+    gap: 0.5rem;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .filter-bar select,
+  .filter-bar input[type="date"] {
+    width: 100%;
+  }
+
+  .list-column,
+  .add-list-form {
+    flex-basis: 260px;  /* 320 se 260 — thoda chota */
+  }
+
+  .card-modal {
+    padding: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .modal-title {
+    font-size: 1.15rem;
+  }
+}
